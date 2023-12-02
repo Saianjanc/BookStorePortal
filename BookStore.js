@@ -38,10 +38,10 @@ function displayBooks() {
 let cart = []
 let total = 0
 
-function addBook(nid) {
-    let name = books[nid-1].name
-    let price = books[nid-1].price
-    books[nid-1].quantity-=1
+function addBook(id) {
+    let name = books[id-1].name
+    let price = books[id-1].price
+    books[id-1].quantity-=1
     total += price
     cart.push({name:name,price:price,quantity:1,total:total})
 }
@@ -62,8 +62,8 @@ while (choice!=4) {
             displayBooks()
             break;
         case 2:
-            let nid = readline.questionInt("Enter Book ID to Add to Cart: ")
-            addBook(nid)
+            let id = readline.questionInt("Enter Book ID to Add to Cart: ")
+            addBook(id)
             break;
         case 3:
             showCart()
