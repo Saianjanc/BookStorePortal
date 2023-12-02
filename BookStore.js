@@ -24,13 +24,16 @@ let books = [
 
 function displayBooks() {
     let id = 1
-    console.log(`Available Books:
+    console.log(`\nAvailable Books:
 +----+--------------------+-------+----------+
 | ID |        Name        | Price | Quantity |
 +----+--------------------+-------+----------+`);
     books.forEach(ele => {
         console.log(`| ${id}  |        ${ele.name}       |  $${ele.price}  |     ${ele.quantity}    |`);
         id++
+        if (ele.quantity==0) {
+            ele.status="Unavailable"
+        }
     });
     console.log(`+----+--------------------+-------+----------+`);
 }
@@ -38,19 +41,27 @@ function displayBooks() {
 let cart = []
 let total = 0
 
-function addBook(id) {
+function addBook(id,quantity) {
     let name = books[id-1].name
     let price = books[id-1].price
-    books[id-1].quantity-=1
-    total += price
-    cart.push({name:name,price:price,quantity:1,total:total})
+    books[id-1].quantity-=quantity
+    let ntotal = price*quantity
+    total += ntotal
+    cart.push({name:name,price:price,quantity:quantity,total:ntotal})
 }
 
 function showCart() {
     if (total==0) {
         console.log("Your Cart is Empty");
     } else {
-        console.log(cart);
+        console.log(`+---------------+-----------+-----------+-------+`);
+        console.log(`|     Name      |   Price   |  Quantity | Total |`);
+        console.log(`+---------------+-----------+-----------+-------+`);
+        cart.forEach(ele => {
+            console.log(`|     ${ele.name}     |     ${ele.price}    |     ${ele.quantity}     |  ${ele.total}  |`); 
+        });
+        console.log(`+---------------+-----------+-----------+-------+`);
+        console.log("Total Cart Price = "+total);
     }
 }
 
@@ -63,10 +74,13 @@ while (choice!=4) {
             break;
         case 2:
             let id = readline.questionInt("Enter Book ID to Add to Cart: ")
-            addBook(id)
+            let quantity = readline.questionInt("Enter Quantity to Add to Cart: ")
+            addBook(id,quantity)
+            displayBooks()
             break;
         case 3:
             showCart()
+            displayBooks()
             break;
         case 4:
             console.log("Bye!!\n");
