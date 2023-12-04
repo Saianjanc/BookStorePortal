@@ -60,7 +60,6 @@ function showCart() {
     if (total==0) {
         console.log("Your Cart is Empty");
     } else {
-        console.log("\nCart:");
         console.log(`+---------------+-----------+-----------+-------+`);
         console.log(`|     Name      |   Price   |  Quantity | Total |`);
         console.log(`+---------------+-----------+-----------+-------+`);
