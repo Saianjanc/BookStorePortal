@@ -44,17 +44,38 @@ let cart = []
 let total = 0
 
 function addBook(id,quantity) {
-    if (quantity<=books[id-1].quantity) {
+    let flag = true
+    if (quantity<=books[id-1].quantity && quantity!=0) {
         let name = books[id-1].name
         let price = books[id-1].price
-        books[id-1].quantity-=quantity
+        books[id-1].quantity -= quantity
         let ntotal = price*quantity
         total += ntotal
-        cart.push({name:name,price:price,quantity:quantity,total:ntotal})   
+        cart.forEach(ele => {
+            if (ele.name==books[id-1].name){
+                ele.quantity += quantity
+                ele.total += ntotal
+                flag = false
+                console.log("Book Updated in Cart!");
+            }
+        })
+        if (flag) {
+            cart.push({name:name,price:price,quantity:quantity,total:ntotal})
+            console.log("Book Added to Cart!");
+        }
     } else {
-        console.log("Book Out of Stock!");
-        quantity=readline.question("Enter new Quantity available quantity is "+books[id-1].quantity+" : ")
-        addBook(id,quantity)
+        if (quantity==0){
+            console.log("Enter Quantity > 0!");
+            quantity=readline.question("Enter new Quantity available quantity is "+books[id-1].quantity+" : ")
+            addBook(id,quantity)
+        }
+        else if(books[id-1].quantity==0) {
+            console.log("Book Out of Stock!");
+        }
+        else{
+            quantity=readline.question("Enter new Quantity available quantity is "+books[id-1].quantity+" : ")
+            addBook(id,quantity)
+        }
     }
 }
 
@@ -83,13 +104,14 @@ while (choice!=4) {
             break;
         case 2:
             let id = readline.questionInt("Enter Book ID to Add to Cart: ")
+            if (id>books.length) {
+                id = readline.questionInt("Enter Vaild Book ID to Add to Cart: ")
+            }
             let quantity = readline.questionInt("Enter Quantity to Add to Cart: ")
             addBook(id,quantity)
-            displayBooks()
             break;
         case 3:
             showCart()
-            displayBooks()
             break;
         case 4:
             console.log("Bye!!\n");
