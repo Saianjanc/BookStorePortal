@@ -23,16 +23,18 @@ let books = [
     }]
 
 function displayBooks() {
-    let id = 1
+    let id = 0
     console.log(`\nAvailable Books:
 +----+--------------------+-------+----------+
 | ID |        Name        | Price | Quantity |
 +----+--------------------+-------+----------+`);
     books.forEach(ele => {
-        console.log(`| ${id}  |        ${ele.name}       |  $${ele.price}  |     ${ele.quantity}    |`);
         id++
         if (ele.quantity==0) {
             ele.status="Unavailable"
+        }
+        if (ele.status=="available"){
+        console.log(`| ${id}  |        ${ele.name}       |  $${ele.price}  |     ${ele.quantity}    |`);
         }
     });
     console.log(`+----+--------------------+-------+----------+`);
@@ -65,10 +67,10 @@ function showCart() {
         console.log(`|     Name      |   Price   |  Quantity | Total |`);
         console.log(`+---------------+-----------+-----------+-------+`);
         cart.forEach(ele => {
-            console.log(`|     ${ele.name}     |     ${ele.price}    |     ${ele.quantity}     |  ${ele.total}  |`); 
+            console.log(`|     ${ele.name}     |    $${ele.price}    |     ${ele.quantity}     |  $${ele.total} |`); 
         });
         console.log(`+---------------+-----------+-----------+-------+`);
-        console.log("Total Cart Price = "+total);
+        console.log("Total Cart Price = $"+total);
     }
 }
 
