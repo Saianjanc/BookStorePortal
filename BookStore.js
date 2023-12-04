@@ -42,18 +42,25 @@ let cart = []
 let total = 0
 
 function addBook(id,quantity) {
-    let name = books[id-1].name
-    let price = books[id-1].price
-    books[id-1].quantity-=quantity
-    let ntotal = price*quantity
-    total += ntotal
-    cart.push({name:name,price:price,quantity:quantity,total:ntotal})
+    if (quantity<=books[id-1].quantity) {
+        let name = books[id-1].name
+        let price = books[id-1].price
+        books[id-1].quantity-=quantity
+        let ntotal = price*quantity
+        total += ntotal
+        cart.push({name:name,price:price,quantity:quantity,total:ntotal})   
+    } else {
+        console.log("Book Out of Stock!");
+        quantity=readline.question("Enter new Quantity available quantity is "+books[id-1].quantity+" : ")
+        addBook(id,quantity)
+    }
 }
 
 function showCart() {
     if (total==0) {
         console.log("Your Cart is Empty");
     } else {
+        console.log("\nCart:");
         console.log(`+---------------+-----------+-----------+-------+`);
         console.log(`|     Name      |   Price   |  Quantity | Total |`);
         console.log(`+---------------+-----------+-----------+-------+`);
