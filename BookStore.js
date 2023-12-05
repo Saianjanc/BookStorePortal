@@ -99,9 +99,12 @@ function showCart() {
         switch (ch) {
             case 1:
                 i=readline.questionInt("Enter Book ID To Remove Book: ")
-                total-=cart.find((ele)=>ele.id==i).total
-                books.find((ele)=>ele.id==i).quantity += cart[i-121].quantity
+                c = cart.find((ele)=>ele.id==i)
+                b = books.find((ele)=>ele.id==i)
+                total-=c.total
+                b.quantity += c.quantity
                 cart=cart.filter((ele)=>ele.id!=i)
+                if (b.quantity>0){b.status="available"}
                 break;
             case 2:
                 i=readline.questionInt("Enter Book ID To Update Book: ")
