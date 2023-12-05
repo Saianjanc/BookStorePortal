@@ -25,15 +25,24 @@ let books = [
         id:123
     }]
 
+let unavailableBooks = []
+
 function displayBooks() {
+    if (unavailableBooks.length){
+        console.log(`\nUnavailable Books:
++-----+--------------------+-------+----------+
+| ID  |        Name        | Price | Quantity |
++-----+--------------------+-------+----------+`);
+unavailableBooks.forEach(ele => {
+    console.log(`| ${ele.id} |        ${ele.name}       |  $${ele.price}  |     ${ele.quantity}    |`);
+});
+console.log(`+-----+--------------------+-------+----------+`);
+    }
     console.log(`\nAvailable Books:
 +-----+--------------------+-------+----------+
 | ID  |        Name        | Price | Quantity |
 +-----+--------------------+-------+----------+`);
     books.forEach(ele => {
-        if (ele.quantity==0) {
-            ele.status="Unavailable"
-        }
         if (ele.status=="available"){
         console.log(`| ${ele.id} |        ${ele.name}       |  $${ele.price}  |     ${ele.quantity}    |`);
         }
@@ -80,11 +89,15 @@ function addBook(id,qty) {
             addBook(id,qty)
         }
     }
+    if (books[id].quantity==0) {
+        books[id].status="Unavailable"
+        unavailableBooks.push({name:name,price:price,quantity:0,id:books[id].id})
+    }
 }
 
 function showCart() {
     if (total==0) {
-        console.log("Your Cart is Empty");
+        console.log("\nYour Cart is Empty");
     } else {
         console.log("\nCart:");
         console.log(`+----+-----------+-----------+-----------+-------+`);
