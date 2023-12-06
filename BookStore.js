@@ -109,42 +109,44 @@ function showCart() {
         console.log(`+----+-----------+-----------+-----------+-------+`);
         console.log("Total Cart Price = $"+total);
         let ch = readline.questionInt("\nEnter\n1:Remove Book from Cart\n2:Update Book Quantity\n3:To Continue\n");
-        switch (ch) {
-            case 1:
-                i=readline.questionInt("Enter Book ID To Remove Book: ")
-                c = cart.find((ele)=>ele.id==i)
-                b = books.find((ele)=>ele.id==i)
-                total-=c.total
-                b.quantity += c.quantity
-                cart=cart.filter((ele)=>ele.id!=i)
-                if (b.quantity>0){b.status="available"
-                unavailableBooks=unavailableBooks.filter((ele)=>ele.id!=i)}
-                console.log("Book is Removed!");
-                break;
-            case 2:
-                i=readline.questionInt("Enter Book ID To Update Book: ")
-                q = readline.questionInt("Enter Quantity to Update: ")
-                if (q<=0){
-                    console.log("\nInvaild Quantity Entered!!")
-                }
-                else{
-                c = cart.find((ele)=>ele.id==i)
-                b = books.find((ele)=>ele.id==i)
-                if (c.quantity<q) {
-                    b.quantity+=(c.quantity-q)
-                } else {
-                    b.quantity+=(c.quantity-q)
-                }
-                if (b.quantity>0){b.status="available"
-                unavailableBooks=unavailableBooks.filter((ele)=>ele.id!=i)}
-                c.quantity=q
-                console.log("\nCart is Updated!!");
-            }
-                break;
-            default:
-                break;
-        }
+        if (ch==1){removeCart()}
+        else if(ch==2){updateCart()}
     }
+}
+
+function removeCart(){
+    i=readline.questionInt("Enter Book ID To Remove Book: ")
+    cartObj = cart.find((ele)=>ele.id==i)
+    bookObj = books.find((ele)=>ele.id==i)
+    total-=cartObj.total
+    bookObj.quantity += cartObj.quantity
+    cart=cart.filter((ele)=>ele.id!=i)
+    if (bookObj.quantity>0){bookObj.status="available"
+    unavailableBooks=unavailableBooks.filter((ele)=>ele.id!=i)}
+    console.log("\nBook is Removed!");
+}
+
+function updateCart(){
+    i=readline.questionInt("Enter Book ID To Update Book: ")
+    if (i>120 && i<124){
+        q = readline.questionInt("Enter Quantity to Update: ")
+        if (q<=0){
+        console.log("\nInvaild Quantity Entered!!")}
+        else{
+            cartObj = cart.find((ele)=>ele.id==i)
+            bookObj = books.find((ele)=>ele.id==i)
+            bookObj.quantity+=(cartObj.quantity-q)
+            cartObj.total-=cartObj.quantity*cartObj.price
+            total-=cartObj.quantity*cartObj.price
+            if (bookObj.quantity>0){bookObj.status="available"
+                unavailableBooks=unavailableBooks.filter((ele)=>ele.id!=i)}
+            cartObj.quantity=q
+            total+=cartObj.quantity*cartObj.price
+            cartObj.total+=cartObj.quantity*cartObj.price
+            console.log("\nCart is Updated!!");
+                 }
+            }
+            else{console.log("\nInvaild Book ID");}
 }
 
 let choice = 0
@@ -158,12 +160,13 @@ while (choice!=4) {
             displayBooks()
             let id = readline.questionInt("Enter Book ID to Add to Cart: ")
             id=id-121
-            if (id>books.length) {
-                id = readline.questionInt("Enter Vaild Book ID to Add to Cart: ")
-                id=id-121
+            if (id>books.length || id<0) {
+                console.log("\nInvaild Book ID!!")
             }
+            else{
             let quantity = readline.questionInt("Enter Quantity to Add to Cart: ")
             addBook(id,quantity)
+            }
             break;
         case 3:
             showCart()
