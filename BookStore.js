@@ -117,11 +117,17 @@ function showCart() {
                 total-=c.total
                 b.quantity += c.quantity
                 cart=cart.filter((ele)=>ele.id!=i)
-                if (b.quantity>0){b.status="available"}
+                if (b.quantity>0){b.status="available"
+                unavailableBooks=unavailableBooks.filter((ele)=>ele.id!=i)}
+                console.log("Book is Removed!");
                 break;
             case 2:
                 i=readline.questionInt("Enter Book ID To Update Book: ")
                 q = readline.questionInt("Enter Quantity to Update: ")
+                if (q<=0){
+                    console.log("\nInvaild Quantity Entered!!")
+                }
+                else{
                 c = cart.find((ele)=>ele.id==i)
                 b = books.find((ele)=>ele.id==i)
                 if (c.quantity<q) {
@@ -129,9 +135,11 @@ function showCart() {
                 } else {
                     b.quantity+=(c.quantity-q)
                 }
-                if (b.quantity>0){b.status="available"}
+                if (b.quantity>0){b.status="available"
+                unavailableBooks=unavailableBooks.filter((ele)=>ele.id!=i)}
                 c.quantity=q
                 console.log("\nCart is Updated!!");
+            }
                 break;
             default:
                 break;
