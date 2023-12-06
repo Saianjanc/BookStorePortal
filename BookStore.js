@@ -24,6 +24,7 @@ let books = [
         quantity:8,
         id:123
     }]
+
 let unavailableBooks = []
 
 function displayBooks() {
@@ -122,7 +123,7 @@ function removeCart(){
     cart=cart.filter((ele)=>ele.id!=i)
     if (bookObj.quantity>0){bookObj.status="available"
     unavailableBooks=unavailableBooks.filter((ele)=>ele.id!=i)}
-    
+    console.log("\nBook is Removed!");
 }
 
 function updateCart(){
